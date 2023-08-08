@@ -198,6 +198,7 @@ drink_tax.grid(row=2, column=2, padx=20,pady=5,sticky='w')
 drink_tax_Entry = Entry(bill_menu_Frame, font=('arial', 10), width=20,bd=5)
 drink_tax_Entry.grid(row=2, column=3)
 
+# Button Section
 button_Frame = Frame(bill_menu_Frame,bd=8,relief=GROOVE,bg='white')
 button_Frame.grid(row=0,column=4,rowspan=3,padx=10)
 
