@@ -46,8 +46,7 @@ productsFrame = Frame(root)
 productsFrame.pack(pady=5,fill=X)
 
 # Cosmetics
-cosmeticsFrame = LabelFrame(productsFrame,text='Cosmetics',font=('times new roman', 15, 'bold'), fg='gold',
-                                    bg='gray20', bd=8, relief=GROOVE)
+cosmeticsFrame = LabelFrame(productsFrame,text='Cosmetics',font=('times new roman', 15, 'bold'), fg='gold', bg='gray20', bd=8, relief=GROOVE)
 cosmeticsFrame.grid(row=0,column=0)
 
 bathsoapLabel = Label(cosmeticsFrame, text='Bath Soap', font=('times new roman', 15, 'bold'), fg='white', bg='gray20')
@@ -156,9 +155,67 @@ bill_Frame.grid(row=0,column=3,padx=10)
 bill_Label = Label(bill_Frame,text='Bill Area',font=('times new roman', 15, 'bold'), fg='white',bg='gray20' )
 bill_Label.pack(fill=X)
 
+# Scrollbar
 Scrollbarr = Scrollbar(bill_Frame, orient=VERTICAL)
 Scrollbarr.pack(side=RIGHT,fill=Y)
 textArea = Text(bill_Frame,height=19,width=37,yscrollcommand=Scrollbarr.set)
 textArea.pack()
+Scrollbarr.config(command=textArea.yview)
+
+# Bill Menu
+bill_menu_Frame = LabelFrame(root,text='Bill Menu',font=('times new roman', 15, 'bold'), fg='gold', bg='gray20', bd=8, relief=GROOVE)
+bill_menu_Frame.pack(fill=X)
+
+# first column
+cosmetic_price = Label(bill_menu_Frame, text='Cosmetic Price', font=('times new roman', 12, 'bold'), fg='white', bg='gray20')
+cosmetic_price.grid(row=0, column=0, padx=8,pady=5,sticky='w')
+cosmetic_price_Entry = Entry(bill_menu_Frame, font=('arial', 10), width=20,bd=5)
+cosmetic_price_Entry.grid(row=0, column=1)
+
+grocery_price = Label(bill_menu_Frame, text='Grocery Price', font=('times new roman', 12, 'bold'), fg='white', bg='gray20')
+grocery_price.grid(row=1, column=0, padx=8,pady=5,sticky='w')
+grocery_price_Entry = Entry(bill_menu_Frame, font=('arial', 10), width=20,bd=5)
+grocery_price_Entry.grid(row=1, column=1)
+
+drink_price = Label(bill_menu_Frame, text='Drink Price', font=('times new roman', 12, 'bold'), fg='white', bg='gray20')
+drink_price.grid(row=2, column=0, padx=8,pady=5,sticky='w')
+drink_price_Entry = Entry(bill_menu_Frame, font=('arial', 10), width=20,bd=5)
+drink_price_Entry.grid(row=2, column=1)
+
+# second column
+cosmetic_tax = Label(bill_menu_Frame, text='Cosmetic Tax', font=('times new roman', 12, 'bold'), fg='white', bg='gray20')
+cosmetic_tax.grid(row=0, column=2, padx=20,pady=5,sticky='w')
+cosmetic_tax_Entry = Entry(bill_menu_Frame, font=('arial', 10), width=20,bd=5)
+cosmetic_tax_Entry.grid(row=0, column=3)
+
+grocery_tax = Label(bill_menu_Frame, text='Grocery Tax', font=('times new roman', 12, 'bold'), fg='white', bg='gray20')
+grocery_tax.grid(row=1, column=2, padx=20,pady=5,sticky='w')
+grocery_tax_Entry = Entry(bill_menu_Frame, font=('arial', 10), width=20,bd=5)
+grocery_tax_Entry.grid(row=1, column=3)
+
+drink_tax = Label(bill_menu_Frame, text='Drink Price', font=('times new roman', 12, 'bold'), fg='white', bg='gray20')
+drink_tax.grid(row=2, column=2, padx=20,pady=5,sticky='w')
+drink_tax_Entry = Entry(bill_menu_Frame, font=('arial', 10), width=20,bd=5)
+drink_tax_Entry.grid(row=2, column=3)
+
+button_Frame = Frame(bill_menu_Frame,bd=8,relief=GROOVE,bg='white')
+button_Frame.grid(row=0,column=4,rowspan=3,padx=10)
+
+total_btn = Button(button_Frame,text='Total',font=('arial',16,'bold'),bg='gray20',fg='white',bd=8,relief=GROOVE,width=6)
+total_btn.grid(row=0,column=0,pady=10,padx=15)
+
+bill_btn = Button(button_Frame,text='Bill',font=('arial',16,'bold'),bg='gray20',fg='white',bd=8,relief=GROOVE,width=6)
+bill_btn.grid(row=0,column=1,pady=10,padx=15)
+
+
+email_btn = Button(button_Frame,text='Email',font=('arial',16,'bold'),bg='gray20',fg='white',bd=8,relief=GROOVE,width=6)
+email_btn.grid(row=0,column=2,pady=10,padx=15)
+
+print_btn = Button(button_Frame,text='Print',font=('arial',16,'bold'),bg='gray20',fg='white',bd=8,relief=GROOVE,width=6)
+print_btn.grid(row=0,column=3,pady=10,padx=15)
+
+Clear_btn = Button(button_Frame,text='Clear',font=('arial',16,'bold'),bg='gray20',fg='white',bd=8,relief=GROOVE,width=6)
+Clear_btn.grid(row=0,column=4,pady=10,padx=15)
+
 
 root.mainloop()
