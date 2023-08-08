@@ -43,7 +43,7 @@ searchButton.grid(row=0, column=6, padx=20, pady=8)
 Product Frames
 """
 productsFrame = Frame(root)
-productsFrame.pack(pady=5)
+productsFrame.pack(pady=5,fill=X)
 
 # Cosmetics
 cosmeticsFrame = LabelFrame(productsFrame,text='Cosmetics',font=('times new roman', 15, 'bold'), fg='gold',
@@ -78,11 +78,10 @@ Hair_gel_Entry.grid(row=4, column=1, padx=8,pady=10)
 body_lotion_Label = Label(cosmeticsFrame, text='Body Lotion', font=('times new roman', 15, 'bold'), fg='white', bg='gray20')
 body_lotion_Label.grid(row=5, column=0, padx=8,pady=10,sticky='w')
 body_lotion_Entry = Entry(cosmeticsFrame, font=('arial', 15), width=10,bd=5)
-body_lotion_Entry.grid(row=5, column=1, padx=8,pady=10)
+body_lotion_Entry.grid(row=5, column=1, padx=30,pady=10)
 
 # Groceries
-GroceriesFrame = LabelFrame(productsFrame,text='Groceries',font=('times new roman', 15, 'bold'), fg='gold',
-                                    bg='gray20', bd=8, relief=GROOVE)
+GroceriesFrame = LabelFrame(productsFrame,text='Groceries',font=('times new roman', 15, 'bold'), fg='gold', bg='gray20', bd=8, relief=GROOVE)
 GroceriesFrame.grid(row=0,column=1)
 
 Rice_Label = Label(GroceriesFrame, text='Rice', font=('times new roman', 15, 'bold'), fg='white', bg='gray20')
@@ -113,6 +112,53 @@ Sugar_Entry.grid(row=4, column=1, padx=8,pady=10)
 Tea_Label = Label(GroceriesFrame, text='Tea', font=('times new roman', 15, 'bold'), fg='white', bg='gray20')
 Tea_Label.grid(row=5, column=0, padx=8,pady=10,sticky='w')
 Tea_Entry = Entry(GroceriesFrame, font=('arial', 15), width=10,bd=5)
-Tea_Entry.grid(row=5, column=1, padx=8,pady=10)
+Tea_Entry.grid(row=5, column=1, padx=30,pady=10)
+
+
+# Drinks
+Drinks_Label = LabelFrame(productsFrame,text='Drinks',font=('times new roman', 15, 'bold'), fg='gold', bg='gray20', bd=8, relief=GROOVE)
+Drinks_Label.grid(row=0,column=2)
+
+Bushera_Label = Label(Drinks_Label, text='Bushera', font=('times new roman', 15, 'bold'), fg='white', bg='gray20')
+Bushera_Label.grid(row=0, column=0, padx=8,pady=10,sticky='w')
+Bushera_Entry = Entry(Drinks_Label, font=('arial', 15), width=10,bd=5)
+Bushera_Entry.grid(row=0, column=1, padx=8,pady=10)
+
+Pepsi_Label = Label(Drinks_Label, text='Pepsi', font=('times new roman', 15, 'bold'), fg='white', bg='gray20')
+Pepsi_Label.grid(row=1, column=0, padx=8,pady=10,sticky='w')
+Pepsi_Entry = Entry(Drinks_Label, font=('arial', 15), width=10,bd=5)
+Pepsi_Entry.grid(row=1, column=1, padx=8,pady=10)
+
+Sprite_Label = Label(Drinks_Label, text='Sprite', font=('times new roman', 15, 'bold'), fg='white', bg='gray20')
+Sprite_Label.grid(row=2, column=0, padx=8,pady=10,sticky='w')
+Sprite_Entry = Entry(Drinks_Label, font=('arial', 15), width=10,bd=5)
+Sprite_Entry.grid(row=2, column=1, padx=8,pady=10)
+
+Drew_Label = Label(Drinks_Label, text='Drew', font=('times new roman', 15, 'bold'), fg='white', bg='gray20')
+Drew_Label.grid(row=3, column=0, padx=8,pady=10,sticky='w')
+Drew_Entry = Entry(Drinks_Label, font=('arial', 15), width=10,bd=5)
+Drew_Entry.grid(row=3, column=1, padx=8,pady=10)
+
+fanta_Label = Label(Drinks_Label, text='Fanta', font=('times new roman', 15, 'bold'), fg='white', bg='gray20')
+fanta_Label.grid(row=4, column=0, padx=8,pady=10,sticky='w')
+fanta_Entry = Entry(Drinks_Label, font=('arial', 15), width=10,bd=5)
+fanta_Entry.grid(row=4, column=1, padx=8,pady=10)
+
+cock_Label = Label(Drinks_Label, text='Coca Cola', font=('times new roman', 15, 'bold'), fg='white', bg='gray20')
+cock_Label.grid(row=5, column=0, padx=8,pady=10,sticky='w')
+cock_Entry = Entry(Drinks_Label, font=('arial', 15), width=10,bd=5)
+cock_Entry.grid(row=5, column=1, padx=30,pady=10)
+
+# Bill Area
+bill_Frame = Frame(productsFrame, bd=8,relief=GROOVE)
+bill_Frame.grid(row=0,column=3,padx=10)
+
+bill_Label = Label(bill_Frame,text='Bill Area',font=('times new roman', 15, 'bold'), fg='white',bg='gray20' )
+bill_Label.pack(fill=X)
+
+Scrollbarr = Scrollbar(bill_Frame, orient=VERTICAL)
+Scrollbarr.pack(side=RIGHT,fill=Y)
+textArea = Text(bill_Frame,height=19,width=37,yscrollcommand=Scrollbarr.set)
+textArea.pack()
 
 root.mainloop()
