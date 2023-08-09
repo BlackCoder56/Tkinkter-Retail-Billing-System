@@ -1,3 +1,4 @@
+from heapq import merge
 from tkinter import *
 
 root = Tk()
@@ -221,7 +222,7 @@ Clear_btn.grid(row=0,column=4,pady=10,padx=15)
 
 
 root.mainloop()
-
+=========
 root.geometry('1270x684')
 root.iconbitmap('ic\cart.ico')
 # Title Label
@@ -231,4 +232,4 @@ headingLabel = Label(root, text='Retail Billing System',
 headingLabel.pack(fill=X)
 
 root.mainloop()
-
+>>>>>>>>> Temporary merge  2
