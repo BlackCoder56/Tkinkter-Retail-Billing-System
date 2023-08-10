@@ -1,12 +1,89 @@
 from heapq import merge
 from tkinter import *
+from tkinter import messagebox
+import random
 
 """
 CODE FOR FUNCTIONALITY PART
 """
 
+bill_number = random.randint(100, 550)
 
+
+# Receipt Function
+def receipt():
+    """
+    if nameEntry.get() == '' or phoneEntry.get() == '':
+        messagebox.showerror('Empty Field', 'Customer name and Contact Required')
+    elif cosmetic_price_Entry.get() == 'Shs. 0' and grocery_price_Entry.get() == 'Shs. 0' and drink_price_Entry.get() == 'Shs. 0':
+        messagebox.showerror('Empty Field', 'No Item is selected')
+    elif cosmetic_tax_Entry.get() == 'Shs. 0.0' and grocery_tax_Entry.get() == 'Shs. 0.0' and drink_tax_Entry.get() == 'Shs. 0.0':
+        messagebox.showerror('Empty Field', 'No Item is selected')
+    else:
+
+"""
+    textArea.delete(1.0, END)
+    textArea.insert(END, '_____________________________________')
+    textArea.insert(END, '\n     ** Tax Invoice / Receipt **\n')
+    textArea.insert(END, f'\nBill No: RCN{bill_number}\n')
+    textArea.insert(END, f'\nCustomer Name : {nameEntry.get()}')
+    textArea.insert(END, f'\nCustomer Contact : {phoneEntry.get()}')
+    textArea.insert(END, '\n=====================================')
+    textArea.insert(END, ' Product\t\tQTY\t\tTotal')
+    textArea.insert(END, '\n=====================================')
+    if bath_soap_value != 0:
+        textArea.insert(END, f'Bath Soap    \t\t{bathsoapEntry.get()}\t\t{bath_soap_value}')
+    if face_cream_value != 0:
+        textArea.insert(END, f'\nFace Cream\t\t{facecreamEntry.get()}\t\t{int(face_cream_value)}')
+    if face_wash_value != 0:
+        textArea.insert(END, f'\nFace Wash\t\t{facewashEntry.get()}\t\t{int(face_wash_value)}')
+    if hair_spray_value != 0:
+        textArea.insert(END, f'\nHair Spray\t\t{hair_spray_Entry.get()}\t\t{int(hair_spray_value)}')
+    if hair_gel_value != 0:
+        textArea.insert(END, f'\nHair Gel\t\t{Hair_gel_Entry.get()}\t\t{int(hair_gel_value)}')
+    if body_lotion_value != 0:
+        textArea.insert(END, f'\nBody Lotion\t\t{body_lotion_Entry.get()}\t\t{int(body_lotion_value)}')
+    if rice_value != 0:
+        textArea.insert(END, f'\nRice\t\t{Rice_Entry.get()}\t\t{int(rice_value)}')
+    if oil_value != 0:
+        textArea.insert(END, f'\nOil\t\t{Oil_Entry.get()}\t\t{int(oil_value)}')
+    if avocado_value != 0:
+        textArea.insert(END, f'\nAvocado\t\t{Avocado_Entry.get()}\t\t{int(avocado_value)}')
+    if wheat_value != 0:
+        textArea.insert(END, f'\nWheat\t\t{Wheat_Entry.get()}\t\t{int(wheat_value)}')
+    if sugar_value != 0:
+        textArea.insert(END, f'\nSugar\t\t{Sugar_Entry.get()}\t\t{int(sugar_value)}')
+    if tea_value != 0:
+        textArea.insert(END, f'\nTea\t\t{facewashEntry.get()}\t\t{int(tea_value)}')
+    if bushera_value != 0:
+        textArea.insert(END, f'\nBushera\t\t{Bushera_Entry.get()}\t\t{int(bushera_value)}')
+    if pepsi_value != 0:
+        textArea.insert(END, f'\nPepsi\t\t{Pepsi_Entry.get()}\t\t{int(pepsi_value)}')
+    if sprite_value != 0:
+        textArea.insert(END, f'\nSprite\t\t{Sprite_Entry.get()}\t\t{int(sprite_value)}')
+    if drew_value != 0:
+        textArea.insert(END, f'\nMtn Dew\t\t{Drew_Entry.get()}\t\t{int(drew_value)}')
+    if fanta_value != 0:
+        textArea.insert(END, f'\nFanta\t\t{fanta_Entry.get()}\t\t{int(fanta_value)}')
+    if cock_value != 0:
+        textArea.insert(END, f'\nCoca Cola\t\t{facewashEntry.get()}\t\t{int(cock_value)}')
+    textArea.insert(END, '\n-------------------------------------')
+    textArea.insert(END, f'\nTotal Bill: \t{unit_total}')
+    textArea.insert(END, f'\nTotal Tax:  \t{tax_total}')
+    textArea.insert(END, f'\nNet Amount: \t{grand_total}')
+    textArea.insert(END, '\n_____________________________________')
+    textArea.insert(END, '\n-------------------------------------')
+
+
+
+
+# total  function
 def total():
+    global bath_soap_value, face_cream_value, face_wash_value, hair_spray_value, hair_gel_value, body_lotion_value
+    global rice_value, oil_value, avocado_value, wheat_value, sugar_value, tea_value
+    global bushera_value, pepsi_value, sprite_value, drew_value, fanta_value, cock_value
+    global unit_total, tax_total, grand_total
+
     # Cosmetics Total and Taxes
     cosmetic_price_Entry.delete(0, END)
     cosmetic_tax_Entry.delete(0, END)
@@ -35,7 +112,6 @@ def total():
     tea_value = int(Tea_Entry.get()) * 2000
 
     groceries_total = (rice_value + oil_value + avocado_value + wheat_value + sugar_value + tea_value)
-
     grocery_price_Entry.insert(0, f"Shs. {groceries_total}")
     groceries_tax_value = float(groceries_total) * 0.2
     grocery_tax_Entry.insert(0, f"Shs. {groceries_tax_value}")
@@ -53,6 +129,13 @@ def total():
     drinks_tax_value = float(drinks_total) * 0.12
     drink_tax_Entry.insert(0, f"Shs. {drinks_tax_value}")
 
+    unit_total = (cosmetic_total + groceries_total + drinks_total)
+    tax_total = (cosmetics_tax_value + groceries_tax_value + drinks_tax_value)
+    grand_total = ( unit_total + tax_total)
+
+
+# def clear():
+#    dd
 
 """
 CODE FOR THE UI DESIGN
@@ -290,7 +373,7 @@ total_btn = Button(button_Frame, text='Total', font=('arial', 16, 'bold'), bg='g
 total_btn.grid(row=0, column=0, pady=10, padx=15)
 
 bill_btn = Button(button_Frame, text='Bill', font=('arial', 16, 'bold'), bg='gray20', fg='white', bd=8, relief=GROOVE,
-                  width=6)
+                  width=6, command=receipt)
 bill_btn.grid(row=0, column=1, pady=10, padx=15)
 
 email_btn = Button(button_Frame, text='Email', font=('arial', 16, 'bold'), bg='gray20', fg='white', bd=8, relief=GROOVE,
