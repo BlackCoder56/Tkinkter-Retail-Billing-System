@@ -1,7 +1,12 @@
 from heapq import merge
 from tkinter import *
 from tkinter import messagebox
-import random
+import random, os
+
+# Creating new folder in case if it doesn't exist
+if not os.path.exists('Receipts'):
+    os.mkdir('Receipts')
+
 
 """
 CODE FOR FUNCTIONALITY PART
@@ -12,69 +17,85 @@ bill_number = random.randint(100, 550)
 
 # Receipt Function
 def receipt():
-    """
     if nameEntry.get() == '' or phoneEntry.get() == '':
         messagebox.showerror('Empty Field', 'Customer name and Contact Required')
     elif cosmetic_price_Entry.get() == 'Shs. 0' and grocery_price_Entry.get() == 'Shs. 0' and drink_price_Entry.get() == 'Shs. 0':
         messagebox.showerror('Empty Field', 'No Item is selected')
     elif cosmetic_tax_Entry.get() == 'Shs. 0.0' and grocery_tax_Entry.get() == 'Shs. 0.0' and drink_tax_Entry.get() == 'Shs. 0.0':
         messagebox.showerror('Empty Field', 'No Item is selected')
+    elif cosmetic_price_Entry.get() == '' and grocery_price_Entry.get() == '' and drink_price_Entry.get() == '':
+        messagebox.showerror('Empty Field', 'No Item is selected')
+    elif cosmetic_tax_Entry.get() == '' and grocery_tax_Entry.get() == '' and drink_tax_Entry.get() == '':
+        messagebox.showerror('Empty Field', 'No Item is selected')
+
     else:
+        textArea.delete(1.0, END)
+        textArea.insert(END, '_____________________________________')
+        textArea.insert(END, '\n     ** Tax Invoice / Receipt **\n')
+        textArea.insert(END, f'\nBill No: RCN{bill_number}')
+        textArea.insert(END, f'\nCustomer Name: {nameEntry.get()}')
+        textArea.insert(END, f'\nCustomer Contact: {phoneEntry.get()}')
+        textArea.insert(END, '\n=====================================')
+        textArea.insert(END, ' \nProduct\t\tQTY\t\tTotal')
+        textArea.insert(END, '\n=====================================')
+        if bath_soap_value != 0:
+            textArea.insert(END, f'\nBath Soap\t\t{bathsoapEntry.get()}\t\t{bath_soap_value}')
+        if face_cream_value != 0:
+            textArea.insert(END, f'\nFace Cream\t\t{facecreamEntry.get()}\t\t{int(face_cream_value)}')
+        if face_wash_value != 0:
+            textArea.insert(END, f'\nFace Wash\t\t{facewashEntry.get()}\t\t{int(face_wash_value)}')
+        if hair_spray_value != 0:
+            textArea.insert(END, f'\nHair Spray\t\t{hair_spray_Entry.get()}\t\t{int(hair_spray_value)}')
+        if hair_gel_value != 0:
+            textArea.insert(END, f'\nHair Gel\t\t{Hair_gel_Entry.get()}\t\t{int(hair_gel_value)}')
+        if body_lotion_value != 0:
+            textArea.insert(END, f'\nBody Lotion\t\t{body_lotion_Entry.get()}\t\t{int(body_lotion_value)}')
+        if rice_value != 0:
+            textArea.insert(END, f'\nRice\t\t{Rice_Entry.get()}\t\t{int(rice_value)}')
+        if oil_value != 0:
+            textArea.insert(END, f'\nOil    \t\t{Oil_Entry.get()}\t\t{int(oil_value)}')
+        if avocado_value != 0:
+            textArea.insert(END, f'\nAvocado\t\t{Avocado_Entry.get()}\t\t{int(avocado_value)}')
+        if wheat_value != 0:
+            textArea.insert(END, f'\nWheat\t\t{Wheat_Entry.get()}\t\t{int(wheat_value)}')
+        if sugar_value != 0:
+            textArea.insert(END, f'\nSugar\t\t{Sugar_Entry.get()}\t\t{int(sugar_value)}')
+        if tea_value != 0:
+            textArea.insert(END, f'\nTea    \t\t{Tea_Entry.get()}\t\t{int(tea_value)}')
+        if bushera_value != 0:
+            textArea.insert(END, f'\nBushera\t\t{Bushera_Entry.get()}\t\t{int(bushera_value)}')
+        if pepsi_value != 0:
+            textArea.insert(END, f'\nPepsi\t\t{Pepsi_Entry.get()}\t\t{int(pepsi_value)}')
+        if sprite_value != 0:
+            textArea.insert(END, f'\nSprite\t\t{Sprite_Entry.get()}\t\t{int(sprite_value)}')
+        if drew_value != 0:
+            textArea.insert(END, f'\nMtn Dew\t\t{Drew_Entry.get()}\t\t{int(drew_value)}')
+        if fanta_value != 0:
+            textArea.insert(END, f'\nFanta\t\t{fanta_Entry.get()}\t\t{int(fanta_value)}')
+        if cock_value != 0:
+            textArea.insert(END, f'\nCoca Cola\t\t{cock_Entry.get()}\t\t{int(cock_value)}')
+        textArea.insert(END, '\n-------------------------------------')
+        textArea.insert(END, f'\nTotal Bill: \t{unit_total}')
+        textArea.insert(END, f'\nTotal Tax:  \t{tax_total}')
+        textArea.insert(END, f'\nNet Amount: \t{grand_total}')
+        textArea.insert(END, '\n_____________________________________')
+        textArea.insert(END, '\n-------------------------------------')
+        #save_receipt()
 
-"""
-    textArea.delete(1.0, END)
-    textArea.insert(END, '_____________________________________')
-    textArea.insert(END, '\n     ** Tax Invoice / Receipt **\n')
-    textArea.insert(END, f'\nBill No: RCN{bill_number}\n')
-    textArea.insert(END, f'\nCustomer Name : {nameEntry.get()}')
-    textArea.insert(END, f'\nCustomer Contact : {phoneEntry.get()}')
-    textArea.insert(END, '\n=====================================')
-    textArea.insert(END, ' Product\t\tQTY\t\tTotal')
-    textArea.insert(END, '\n=====================================')
-    if bath_soap_value != 0:
-        textArea.insert(END, f'Bath Soap    \t\t{bathsoapEntry.get()}\t\t{bath_soap_value}')
-    if face_cream_value != 0:
-        textArea.insert(END, f'\nFace Cream\t\t{facecreamEntry.get()}\t\t{int(face_cream_value)}')
-    if face_wash_value != 0:
-        textArea.insert(END, f'\nFace Wash\t\t{facewashEntry.get()}\t\t{int(face_wash_value)}')
-    if hair_spray_value != 0:
-        textArea.insert(END, f'\nHair Spray\t\t{hair_spray_Entry.get()}\t\t{int(hair_spray_value)}')
-    if hair_gel_value != 0:
-        textArea.insert(END, f'\nHair Gel\t\t{Hair_gel_Entry.get()}\t\t{int(hair_gel_value)}')
-    if body_lotion_value != 0:
-        textArea.insert(END, f'\nBody Lotion\t\t{body_lotion_Entry.get()}\t\t{int(body_lotion_value)}')
-    if rice_value != 0:
-        textArea.insert(END, f'\nRice\t\t{Rice_Entry.get()}\t\t{int(rice_value)}')
-    if oil_value != 0:
-        textArea.insert(END, f'\nOil\t\t{Oil_Entry.get()}\t\t{int(oil_value)}')
-    if avocado_value != 0:
-        textArea.insert(END, f'\nAvocado\t\t{Avocado_Entry.get()}\t\t{int(avocado_value)}')
-    if wheat_value != 0:
-        textArea.insert(END, f'\nWheat\t\t{Wheat_Entry.get()}\t\t{int(wheat_value)}')
-    if sugar_value != 0:
-        textArea.insert(END, f'\nSugar\t\t{Sugar_Entry.get()}\t\t{int(sugar_value)}')
-    if tea_value != 0:
-        textArea.insert(END, f'\nTea\t\t{facewashEntry.get()}\t\t{int(tea_value)}')
-    if bushera_value != 0:
-        textArea.insert(END, f'\nBushera\t\t{Bushera_Entry.get()}\t\t{int(bushera_value)}')
-    if pepsi_value != 0:
-        textArea.insert(END, f'\nPepsi\t\t{Pepsi_Entry.get()}\t\t{int(pepsi_value)}')
-    if sprite_value != 0:
-        textArea.insert(END, f'\nSprite\t\t{Sprite_Entry.get()}\t\t{int(sprite_value)}')
-    if drew_value != 0:
-        textArea.insert(END, f'\nMtn Dew\t\t{Drew_Entry.get()}\t\t{int(drew_value)}')
-    if fanta_value != 0:
-        textArea.insert(END, f'\nFanta\t\t{fanta_Entry.get()}\t\t{int(fanta_value)}')
-    if cock_value != 0:
-        textArea.insert(END, f'\nCoca Cola\t\t{facewashEntry.get()}\t\t{int(cock_value)}')
-    textArea.insert(END, '\n-------------------------------------')
-    textArea.insert(END, f'\nTotal Bill: \t{unit_total}')
-    textArea.insert(END, f'\nTotal Tax:  \t{tax_total}')
-    textArea.insert(END, f'\nNet Amount: \t{grand_total}')
-    textArea.insert(END, '\n_____________________________________')
-    textArea.insert(END, '\n-------------------------------------')
 
+# Funtion for Saving the Receipt
 
+def save_receipt():
+    global bill_number
+    bill_no = f'RCN{bill_number}'
+    result = messagebox.askyesno('Confirm', 'Do you want to safe the receipt?')
+    if result:
+        content = textArea.get(1.0, END)
+        receipt_file = open(f'Receipts/ {bill_no}.txt', 'w')
+        receipt_file.write(content)
+        receipt_file.close()
+        messagebox.showinfo("Success", f"Receipt {bill_no} has been saved successfully")
+        bill_number = random.randint(100, 550)
 
 
 # total  function
@@ -117,6 +138,8 @@ def total():
     grocery_tax_Entry.insert(0, f"Shs. {groceries_tax_value}")
 
     # Drinks Total and Taxes
+    drink_price_Entry.delete(0, END)
+    drink_tax_Entry.delete(0, END)
     bushera_value = int(Bushera_Entry.get()) * 4700
     pepsi_value = int(Pepsi_Entry.get()) * 2000
     sprite_value = int(Sprite_Entry.get()) * 2000
@@ -131,11 +154,64 @@ def total():
 
     unit_total = (cosmetic_total + groceries_total + drinks_total)
     tax_total = (cosmetics_tax_value + groceries_tax_value + drinks_tax_value)
-    grand_total = ( unit_total + tax_total)
+    grand_total = (unit_total + tax_total)
 
 
-# def clear():
-#    dd
+# Clear or refresh
+def clear():
+    nameEntry.delete(0, END)
+    phoneEntry.delete(0, END)
+
+    bathsoapEntry.delete(0, END)
+    bathsoapEntry.insert(0, "0")
+    facecreamEntry.delete(0, END)
+    facecreamEntry.insert(0, "0")
+    facewashEntry.delete(0, END)
+    facewashEntry.insert(0, "0")
+    hair_spray_Entry.delete(0, END)
+    hair_spray_Entry.insert(0, "0")
+    Hair_gel_Entry.delete(0, END)
+    Hair_gel_Entry.insert(0, "0")
+    body_lotion_Entry.delete(0, END)
+    body_lotion_Entry.insert(0, "0")
+    Rice_Entry.delete(0, END)
+    Rice_Entry.insert(0, "0")
+    Oil_Entry.delete(0, END)
+    Oil_Entry.insert(0, "0")
+    Avocado_Entry.delete(0, END)
+    Avocado_Entry.insert(0, "0")
+    Wheat_Entry.delete(0, END)
+    Wheat_Entry.insert(0, "0")
+    Sugar_Entry.delete(0, END)
+    Sugar_Entry.insert(0, "0")
+    Tea_Entry.delete(0, END)
+    Tea_Entry.insert(0, "0")
+    Bushera_Entry.delete(0, END)
+    Bushera_Entry.insert(0, "0")
+    Pepsi_Entry.delete(0, END)
+    Pepsi_Entry.insert(0, "0")
+    Sprite_Entry.delete(0, END)
+    Sprite_Entry.insert(0, "0")
+    Drew_Entry.delete(0, END)
+    Drew_Entry.insert(0, "0")
+    fanta_Entry.delete(0, END)
+    fanta_Entry.insert(0, "0")
+    cock_Entry.delete(0, END)
+    cock_Entry.insert(0, "0")
+
+    cosmetic_price_Entry.delete(0, END)
+    cosmetic_tax_Entry.delete(0, END)
+
+    grocery_price_Entry.delete(0, END)
+    grocery_tax_Entry.delete(0, END)
+
+    drink_price_Entry.delete(0, END)
+    drink_tax_Entry.delete(0, END)
+
+    textArea.delete(1.0, END)
+
+    nameEntry.focus()
+
 
 """
 CODE FOR THE UI DESIGN
@@ -162,7 +238,7 @@ nameLabel = Label(customer_Details_frame, text='Name', font=('times new roman', 
 nameLabel.grid(row=0, column=0, padx=20, pady=2)
 nameEntry = Entry(customer_Details_frame, font=('arial', 15), width=18)
 nameEntry.grid(row=0, column=1, padx=8)
-
+nameEntry.focus()
 phoneLabel = Label(customer_Details_frame, text='Phone Number', font=('times new roman', 15, 'bold'), fg='white',
                    bg='gray20')
 phoneLabel.grid(row=0, column=2, padx=20, pady=2)
@@ -385,7 +461,7 @@ print_btn = Button(button_Frame, text='Print', font=('arial', 16, 'bold'), bg='g
 print_btn.grid(row=0, column=3, pady=10, padx=15)
 
 Clear_btn = Button(button_Frame, text='Clear', font=('arial', 16, 'bold'), bg='gray20', fg='white', bd=8, relief=GROOVE,
-                   width=6)
+                   width=6, command=clear)
 Clear_btn.grid(row=0, column=4, pady=10, padx=15)
 
 root.mainloop()
