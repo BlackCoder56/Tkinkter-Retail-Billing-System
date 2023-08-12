@@ -1,17 +1,15 @@
-from heapq import merge
+import os, tempfile
+import random, smtplib
 from tkinter import *
 from tkinter import messagebox
-import random, os
 
-# Creating new folder in case if it doesn't exist
+# Creating new folder in case it doesn't exist
 if not os.path.exists('Receipts'):
     os.mkdir('Receipts')
-
 
 """
 CODE FOR FUNCTIONALITY PART
 """
-
 bill_number = random.randint(100, 550)
 
 
@@ -80,11 +78,10 @@ def receipt():
         textArea.insert(END, f'\nNet Amount: \t{grand_total}')
         textArea.insert(END, '\n_____________________________________')
         textArea.insert(END, '\n-------------------------------------')
-        #save_receipt()
+        save_receipt()
 
 
 # Funtion for Saving the Receipt
-
 def save_receipt():
     global bill_number
     bill_no = f'RCN{bill_number}'
@@ -96,6 +93,80 @@ def save_receipt():
         receipt_file.close()
         messagebox.showinfo("Success", f"Receipt {bill_no} has been saved successfully")
         bill_number = random.randint(100, 550)
+
+
+def send_email():
+    def sending_message():
+        try:
+            message_object = smtplib.SMTP('smtp.gmail.com', 587)
+            message_object.starttls()
+            message_object.login(sender_email_input.get(), password_input.get())
+            message_object.sendmail(sender_email_input.get(), customer_email_input.get(),
+                                    message_box_input.get(1.0, END))
+            message_object.quit()
+        except:
+            messagebox.showerror('External error', 'Something went wrong, try again please!')
+
+    root1 = Toplevel()
+
+    root1.title('Sending Receipt to email')
+    root1.config(bg='gray10')
+    root1.resizable(False, False)
+    # UI design
+    sender_frame = LabelFrame(root1, text="Sender's Details", font=('arial', 18, 'bold'), fg='gold', bg='gray10')
+    sender_frame.grid(row=0, column=0, padx=5, pady=5)
+
+    sender_email = Label(sender_frame, text='Email', font=('arial', 15, 'bold'), fg='white', bg='gray10')
+    sender_email.grid(row=0, column=0, pady=10, padx=8, sticky='w')
+
+    sender_email_input = Entry(sender_frame, font=('arial', 15, 'bold'), fg='black')
+    sender_email_input.grid(row=0, column=1, padx=8)
+
+    password = Label(sender_frame, text='Password', font=('arial', 15, 'bold'), fg='white', bg='gray10', )
+    password.grid(row=1, column=0, pady=10, padx=8)
+
+    password_input = Entry(sender_frame, font=('arial', 15, 'bold'), fg='black')
+    password_input.grid(row=1, column=1)
+
+    customer_frame = LabelFrame(root1, text="Customer's Details", font=('arial', 18, 'bold'), fg='gold', bg='gray10')
+    customer_frame.grid(row=1, column=0, padx=5, pady=5)
+
+    customer_email = Label(customer_frame, text='Email', font=('arial', 15, 'bold'), fg='white', bg='gray10')
+    customer_email.grid(row=0, column=0, pady=10, padx=8, sticky='w')
+
+    customer_email_input = Entry(customer_frame, font=('arial', 15, 'bold'), fg='black')
+    customer_email_input.grid(row=0, column=1, padx=8)
+
+    message_box = Label(customer_frame, text='Receipt:', font=('arial', 15, 'bold'), fg='white', bg='gray10')
+    message_box.grid(row=1, column=0, pady=10, padx=8, sticky='w')
+
+    # scroll = Scrollbar(customer_frame, orient=VERTICAL)
+    # scroll.pack(side=RIGHT, fill=Y)
+    message_box_input = Text(customer_frame, font=('arial', 15), fg='black', width=30, height=10)
+    message_box_input.grid(row=2, column=0, columnspan=2)
+    # scroll.config(command=message_box_input.yview)
+
+    # adding data from receipt area to be sent
+    message_box_input.delete(1.0, END)
+    message_box_input.insert(END,
+                             textArea.get(1.0, END).replace('=', '').replace('-', '').replace('_', '').replace('\t\t\t',
+                                                                                                               '\t'))
+
+    _frame = LabelFrame(root1, font=('arial', 18, 'bold'), fg='gold', bg='gray10')
+    _frame.grid(row=2, column=0, pady=2)
+    send_receipt_btn = Button(_frame, text='Send', font=('arial', 14, 'bold'), fg='white', bg='blue', width=18)
+    send_receipt_btn.grid(row=0, column=0, columnspan=2, pady=10, padx=60)
+
+    root1.mainloop()
+
+
+def print_receipt():
+    if textArea.get(1.0, END) == '\n':
+        messagebox.showerror('Empty Bill area', "Receipt area is empty!!")
+    else:
+        file = tempfile.mktemp('.txt')
+        open(file, 'w').write(textArea.get(1.0, END))
+        os.startfile(file, 'print')
 
 
 # total  function
@@ -140,7 +211,7 @@ def total():
     # Drinks Total and Taxes
     drink_price_Entry.delete(0, END)
     drink_tax_Entry.delete(0, END)
-    bushera_value = int(Bushera_Entry.get()) * 4700
+    bushera_value = int(Bushera_Entry.get()) * 4800
     pepsi_value = int(Pepsi_Entry.get()) * 2000
     sprite_value = int(Sprite_Entry.get()) * 2000
     drew_value = int(Drew_Entry.get()) * 1500
@@ -223,10 +294,11 @@ root.title("Retail Billing System ")
 root.geometry('1270x684+-3+-4')
 root.iconbitmap('ic\cart.ico')
 # Title Label
-headingLabel = Label(root, text='Retail Billing System',
+headingLabel = Label(root, text='Suzanna Shop Billing System',
                      font=('times new roman', 30, 'bold'),
                      bg='gray20', fg='gold', bd=10, relief=RIDGE)
 headingLabel.pack(fill=X, pady=8)
+
 """
 Customer Details Frame
 """
@@ -389,7 +461,8 @@ cock_Entry.insert(0, "0")
 bill_Frame = Frame(productsFrame, bd=8, relief=GROOVE)
 bill_Frame.grid(row=0, column=3, padx=10)
 
-bill_Label = Label(bill_Frame, text='Bill Area', font=('times new roman', 15, 'bold'), fg='white', bg='gray20')
+bill_Label = Label(bill_Frame, text='**  Receipt Area  **', font=('times new roman', 15, 'bold'), fg='white',
+                   bg='gray20')
 bill_Label.pack(fill=X)
 
 # Scrollbar
@@ -443,24 +516,24 @@ drink_tax_Entry.grid(row=2, column=3)
 button_Frame = Frame(bill_menu_Frame, bd=8, relief=GROOVE, bg='white')
 button_Frame.grid(row=0, column=4, rowspan=3, padx=10)
 
-total_btn = Button(button_Frame, text='Total', font=('arial', 16, 'bold'), bg='gray20', command=total, fg='white', bd=8,
+total_btn = Button(button_Frame, text='Total', font=('arial', 16, 'bold'), bg='green', command=total, fg='white', bd=8,
                    relief=GROOVE,
                    width=6)
 total_btn.grid(row=0, column=0, pady=10, padx=15)
 
-bill_btn = Button(button_Frame, text='Bill', font=('arial', 16, 'bold'), bg='gray20', fg='white', bd=8, relief=GROOVE,
+bill_btn = Button(button_Frame, text='Bill', font=('arial', 16, 'bold'), bg='blue', fg='white', bd=8, relief=GROOVE,
                   width=6, command=receipt)
 bill_btn.grid(row=0, column=1, pady=10, padx=15)
 
-email_btn = Button(button_Frame, text='Email', font=('arial', 16, 'bold'), bg='gray20', fg='white', bd=8, relief=GROOVE,
-                   width=6)
+email_btn = Button(button_Frame, text='Email', font=('arial', 16, 'bold'), bg='blue', fg='white', bd=8, relief=GROOVE,
+                   width=6, command=send_email)
 email_btn.grid(row=0, column=2, pady=10, padx=15)
 
 print_btn = Button(button_Frame, text='Print', font=('arial', 16, 'bold'), bg='gray20', fg='white', bd=8, relief=GROOVE,
-                   width=6)
+                   width=6, command=print_receipt)
 print_btn.grid(row=0, column=3, pady=10, padx=15)
 
-Clear_btn = Button(button_Frame, text='Clear', font=('arial', 16, 'bold'), bg='gray20', fg='white', bd=8, relief=GROOVE,
+Clear_btn = Button(button_Frame, text='Clear', font=('arial', 16, 'bold'), bg='red', fg='white', bd=8, relief=GROOVE,
                    width=6, command=clear)
 Clear_btn.grid(row=0, column=4, pady=10, padx=15)
 
