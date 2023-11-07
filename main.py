@@ -1,5 +1,7 @@
-import os, tempfile
-import random, smtplib
+import os
+import random
+import smtplib
+import tempfile
 from tkinter import *
 from tkinter import messagebox
 
@@ -73,9 +75,9 @@ def receipt():
         if cock_value != 0:
             textArea.insert(END, f'\nCoca Cola\t\t{cock_Entry.get()}\t\t{int(cock_value)}')
         textArea.insert(END, '\n-------------------------------------')
-        textArea.insert(END, f'\nTotal Bill: \t{unit_total}')
+        textArea.insert(END, f'\nNet Amount: \t{unit_total}')
         textArea.insert(END, f'\nTotal Tax:  \t{tax_total}')
-        textArea.insert(END, f'\nNet Amount: \t{grand_total}')
+        textArea.insert(END, f'\nTotal Bill: \t{grand_total}')
         textArea.insert(END, '\n_____________________________________')
         textArea.insert(END, '\n-------------------------------------')
         save_receipt()
@@ -98,66 +100,82 @@ def save_receipt():
 def send_email():
     def sending_message():
         try:
-            message_object = smtplib.SMTP('smtp.gmail.com', 587)
-            message_object.starttls()
-            message_object.login(sender_email_input.get(), password_input.get())
-            message_object.sendmail(sender_email_input.get(), customer_email_input.get(),
-                                    message_box_input.get(1.0, END))
-            message_object.quit()
+            if sender_email_input.get() == '' or password_input.get() == '':
+                messagebox.showerror('Error', 'Sender details missing!!..', parent=root1)
+            elif customer_email_input.get() == '':
+                messagebox.showerror('Error', 'Customer email address missing!!..', parent=root1)
+            elif message_box_input.get(1.0, END) == '\n':
+                messagebox.showerror('Error', 'Bill details missing!!..', parent=root1)
+            else:
+                message_object = smtplib.SMTP('smtp.gmail.com', 587)
+                message_object.starttls()
+                message_object.login(sender_email_input.get(), password_input.get())
+                message_object.sendmail(sender_email_input.get(), customer_email_input.get(),
+                                        message_box_input.get(1.0, END))
+                message_object.quit()
+                messagebox.showinfo('Success', f'Receipt has been successfully sent to {customer_email_input.get()}')
+                root1.destroy()
+
         except:
-            messagebox.showerror('External error', 'Something went wrong, try again please!')
+            messagebox.showerror('External error', 'Something went wrong, try again please!', parent=root1)
 
-    root1 = Toplevel()
+    if textArea.get(1.0, END) == '\n':
+        messagebox.showerror("Error", "No Bill to send")
+    else:
+        root1 = Toplevel()
+        root1.grab_set()
+        root1.title('Sending Receipt to email')
+        root1.config(bg='gray10')
+        root1.resizable(False, False)
+        # UI design
+        sender_frame = LabelFrame(root1, text="Sender's Details", font=('arial', 18, 'bold'), fg='gold', bg='gray10')
+        sender_frame.grid(row=0, column=0, padx=5, pady=5)
 
-    root1.title('Sending Receipt to email')
-    root1.config(bg='gray10')
-    root1.resizable(False, False)
-    # UI design
-    sender_frame = LabelFrame(root1, text="Sender's Details", font=('arial', 18, 'bold'), fg='gold', bg='gray10')
-    sender_frame.grid(row=0, column=0, padx=5, pady=5)
+        sender_email = Label(sender_frame, text='Email', font=('arial', 15, 'bold'), fg='white', bg='gray10')
+        sender_email.grid(row=0, column=0, pady=10, padx=8, sticky='w')
 
-    sender_email = Label(sender_frame, text='Email', font=('arial', 15, 'bold'), fg='white', bg='gray10')
-    sender_email.grid(row=0, column=0, pady=10, padx=8, sticky='w')
+        sender_email_input = Entry(sender_frame, font=('arial', 15, 'bold'), fg='black')
+        sender_email_input.grid(row=0, column=1, padx=8)
 
-    sender_email_input = Entry(sender_frame, font=('arial', 15, 'bold'), fg='black')
-    sender_email_input.grid(row=0, column=1, padx=8)
+        password = Label(sender_frame, text='Password', font=('arial', 15, 'bold'), fg='white', bg='gray10', )
+        password.grid(row=1, column=0, pady=10, padx=8)
 
-    password = Label(sender_frame, text='Password', font=('arial', 15, 'bold'), fg='white', bg='gray10', )
-    password.grid(row=1, column=0, pady=10, padx=8)
+        password_input = Entry(sender_frame, font=('arial', 15, 'bold'), fg='black')
+        password_input.grid(row=1, column=1)
 
-    password_input = Entry(sender_frame, font=('arial', 15, 'bold'), fg='black')
-    password_input.grid(row=1, column=1)
+        customer_frame = LabelFrame(root1, text="Customer's Details", font=('arial', 18, 'bold'), fg='gold',
+                                    bg='gray10')
+        customer_frame.grid(row=1, column=0, padx=5, pady=5)
 
-    customer_frame = LabelFrame(root1, text="Customer's Details", font=('arial', 18, 'bold'), fg='gold', bg='gray10')
-    customer_frame.grid(row=1, column=0, padx=5, pady=5)
+        customer_email = Label(customer_frame, text='Email', font=('arial', 15, 'bold'), fg='white', bg='gray10')
+        customer_email.grid(row=0, column=0, pady=10, padx=8, sticky='w')
 
-    customer_email = Label(customer_frame, text='Email', font=('arial', 15, 'bold'), fg='white', bg='gray10')
-    customer_email.grid(row=0, column=0, pady=10, padx=8, sticky='w')
+        customer_email_input = Entry(customer_frame, font=('arial', 15, 'bold'), fg='black')
+        customer_email_input.grid(row=0, column=1, padx=8)
 
-    customer_email_input = Entry(customer_frame, font=('arial', 15, 'bold'), fg='black')
-    customer_email_input.grid(row=0, column=1, padx=8)
+        message_box = Label(customer_frame, text='Receipt:', font=('arial', 15, 'bold'), fg='white', bg='gray10')
+        message_box.grid(row=1, column=0, pady=10, padx=8, sticky='w')
 
-    message_box = Label(customer_frame, text='Receipt:', font=('arial', 15, 'bold'), fg='white', bg='gray10')
-    message_box.grid(row=1, column=0, pady=10, padx=8, sticky='w')
+        # scroll = Scrollbar(customer_frame, orient=VERTICAL)
+        # scroll.pack(side=RIGHT, fill=Y)
+        message_box_input = Text(customer_frame, font=('arial', 15), fg='black', width=30, height=10)
+        message_box_input.grid(row=2, column=0, columnspan=2)
+        # scroll.config(command=message_box_input.yview)
 
-    # scroll = Scrollbar(customer_frame, orient=VERTICAL)
-    # scroll.pack(side=RIGHT, fill=Y)
-    message_box_input = Text(customer_frame, font=('arial', 15), fg='black', width=30, height=10)
-    message_box_input.grid(row=2, column=0, columnspan=2)
-    # scroll.config(command=message_box_input.yview)
+        # adding data from receipt area to be sent
+        message_box_input.delete(1.0, END)
+        message_box_input.insert(END,
+                                 textArea.get(1.0, END).replace('=', '').replace('-', '').replace('_', '').replace(
+                                     '\t\t\t',
+                                     '\t'))
 
-    # adding data from receipt area to be sent
-    message_box_input.delete(1.0, END)
-    message_box_input.insert(END,
-                             textArea.get(1.0, END).replace('=', '').replace('-', '').replace('_', '').replace('\t\t\t',
-                                                                                                               '\t'))
+        _frame = LabelFrame(root1, font=('arial', 18, 'bold'), fg='gold', bg='gray10')
+        _frame.grid(row=2, column=0, pady=2)
+        send_receipt_btn = Button(_frame, text='Send', font=('arial', 14, 'bold'), fg='white', bg='blue', width=18,
+                                  command=sending_message)
+        send_receipt_btn.grid(row=0, column=0, columnspan=2, pady=10, padx=60)
 
-    _frame = LabelFrame(root1, font=('arial', 18, 'bold'), fg='gold', bg='gray10')
-    _frame.grid(row=2, column=0, pady=2)
-    send_receipt_btn = Button(_frame, text='Send', font=('arial', 14, 'bold'), fg='white', bg='blue', width=18)
-    send_receipt_btn.grid(row=0, column=0, columnspan=2, pady=10, padx=60)
-
-    root1.mainloop()
+        root1.mainloop()
 
 
 def print_receipt():
@@ -190,7 +208,7 @@ def total():
             bath_soap_value + face_cream_value + face_wash_value + hair_spray_value + hair_gel_value + body_lotion_value)
 
     cosmetic_price_Entry.insert(0, f"Shs. {cosmetic_total}")
-    cosmetics_tax_value = cosmetic_total * 0.15
+    cosmetics_tax_value = (cosmetic_total * 0.15)/100
     cosmetic_tax_Entry.insert(0, f"Shs. {cosmetics_tax_value}")
 
     # Groceries Total and Taxes
@@ -205,7 +223,7 @@ def total():
 
     groceries_total = (rice_value + oil_value + avocado_value + wheat_value + sugar_value + tea_value)
     grocery_price_Entry.insert(0, f"Shs. {groceries_total}")
-    groceries_tax_value = float(groceries_total) * 0.2
+    groceries_tax_value = float(groceries_total * 0.2) /100
     grocery_tax_Entry.insert(0, f"Shs. {groceries_tax_value}")
 
     # Drinks Total and Taxes
@@ -220,7 +238,7 @@ def total():
 
     drinks_total = (bushera_value + pepsi_value + sprite_value + drew_value + fanta_value + cock_value)
     drink_price_Entry.insert(0, f"Shs. {drinks_total}")
-    drinks_tax_value = float(drinks_total) * 0.12
+    drinks_tax_value = float(drinks_total * 0.2) / 100
     drink_tax_Entry.insert(0, f"Shs. {drinks_tax_value}")
 
     unit_total = (cosmetic_total + groceries_total + drinks_total)
